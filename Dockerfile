@@ -1,28 +1,9 @@
-FROM heroku/cedar:14
+FROM buildpack-deps:jessie
 MAINTAINER Alex Arnell <alex.arnell@cgmail.com>
 
 ENV ERLANG_VERSION R16B03-1
 ENV REBAR_VERSION 2.5.1
 ENV RELX_VERSION v1.0.4
-
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
-RUN apt-get update && \
-    apt-get install -y \
-    libncurses5-dev \
-    openssl \
-    libssl-dev \
-    fop \
-    xsltproc \
-    unixodbc-dev \
-    automake \
-    build-essential \
-    curl \
-    wget \
-    git
 
 RUN cd /usr/src \
     && curl -L -o otp_src_${ERLANG_VERSION}.tar.gz "http://erlang.org/download/otp_src_${ERLANG_VERSION}.tar.gz" \
