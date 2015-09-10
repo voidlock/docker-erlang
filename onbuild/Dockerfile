@@ -1,10 +1,8 @@
-FROM voidlock/erlang:latest
+FROM voidlock/erlang:17.5
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-ONBUILD COPY rebar.config /usr/src/app/
-ONBUILD RUN rebar get-deps
 ONBUILD COPY . /usr/src/app
 
-ONBUILD RUN rebar compile
+ONBUILD RUN rebar3 update && rebar3 release
