@@ -1,7 +1,7 @@
 FROM buildpack-deps:jessie-scm
 MAINTAINER Alex Arnell <alex.arnell@cgmail.com>
 
-ENV ERLANG_VERSION=OTP-18.0.3 \
+ENV ERLANG_VERSION=OTP_R16B03-1 \
     LANG=C
 
 RUN apt-get update && apt-get install -y \
