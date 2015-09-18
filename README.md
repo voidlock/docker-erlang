@@ -1,2 +1,2 @@
-# docker-erlang-base
+# docker-erlang
 Docker Base Image packaging for OTP Erlang
