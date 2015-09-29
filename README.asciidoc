@@ -1,0 +1,4 @@
+= Erlang OTP Docker Images image:https://travis-ci.org/voidlock/docker-erlang.svg?branch=master["Build Status", link="https://travis-ci.org/voidlock/docker-erlang"]
+Alex Arnell <alex.arnell@gmail.com>
+
+Docker Base Image packaging for OTP Erlang

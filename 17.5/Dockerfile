@@ -1,32 +1,31 @@
-FROM buildpack-deps:jessie-scm
+FROM buildpack-deps:jessie
 MAINTAINER Alex Arnell <alex.arnell@cgmail.com>
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    apt-utils \
     locales \
-    build-essential \
-    autoconf \
-    libssl-dev \
-    libncurses-dev \
     && export LANG=en_US.UTF-8 \
     && echo $LANG UTF-8 > /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=$LANG
+    && rm -rf /var/lib/apt/lists/*
 
-ENV ERLANG_VERSION=OTP-17.5.6.3 \
+ENV OTP_VERSION=OTP-17.5.6.3 \
+    OTP_DOWNLOAD_SHA=9c72896f8df53cc4c1c4012acb98ddd3eddc017965abc3614f17b341d913149a \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
-RUN cd /usr/src \
-    && curl -L -o ${ERLANG_VERSION}.tar.gz "https://github.com/erlang/otp/archive/${ERLANG_VERSION}.tar.gz" \
-    && tar xf ${ERLANG_VERSION}.tar.gz \
-    && cd otp-${ERLANG_VERSION} \
+RUN set -xe \
+    && curl -SL https://github.com/erlang/otp/archive/$OTP_VERSION.tar.gz -o otp-src.tar.gz \
+    && echo "$OTP_DOWNLOAD_SHA otp-src.tar.gz" | sha256sum -c - \
+    && mkdir -p /usr/src/otp-src \
+    && tar -xzC /usr/src/otp-src --strip-components=1 -f otp-src.tar.gz \
+    && rm otp-src.tar.gz \
+    && cd /usr/src/otp-src \
     && ./otp_build autoconf \
     && ./configure \
-    && make \
+    && make -j$(nproc) \
     && make install \
-    && cd .. \
-    && rm -rf otp-${ERLANG_VERSION} ${ERLANG_VERSION}.tar.gz
+    && rm -rf /usr/src/otp-src
 
 CMD ["erl"]
