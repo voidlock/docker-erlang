@@ -15,8 +15,8 @@ script:
 after_script:
   - docker images
 
-provider: script
+deploy:
+  provider: script
   script: docker push "$image" && docker push "$image-onbuild"
   on:
-    branch: master
-
+    branch: develop
