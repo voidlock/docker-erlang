@@ -2,6 +2,12 @@ sudo: required
 services:
   - docker
 
+env:
+  - VERSION=R16
+  - VERSION=17.5
+  - VERSION=18
+  - VERSION=18.1
+
 before_script:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - env | sort
