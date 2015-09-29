@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_script:
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - env | sort
+  - cd "$VERSION"
+  - image="$(awk '$1 == "FROM" { print $2; exit }' onbuild/Dockerfile)"
+
+script:
+  - docker build -t "$image" .
+  - docker build -t "${image}-onbuild" onbuild
+
+after_script:
+  - docker images
+
+provider: script
+  script: docker push "$image" && docker push "$image-onbuild"
+  on:
+    branch: master
+
