@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && export LANG=en_US.UTF-8 \
     && echo $LANG UTF-8 > /etc/locale.gen \
     && locale-gen \
-    && update-locale LANG=$LANG
+    && update-locale LANG=$LANG \
     && rm -rf /var/lib/apt/lists/*
 
 ENV OTP_VERSION=OTP-17.5.6.3 \
